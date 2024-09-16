@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../constants/Color';
+import ExpenceOutput from '../components/Expence/ExpenceOutput';
+
 function RecentExpenseScreen() {
   return (
     <View style={styles.container}>
-      <Text>Recents</Text>
+    <ExpenceOutput Period={'Last 7 Days'}/>
     </View>
   );
 }

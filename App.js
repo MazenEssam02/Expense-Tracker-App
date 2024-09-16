@@ -32,14 +32,16 @@ export default function App() {
   }
   const Tab = createBottomTabNavigator();
   const Stack=createNativeStackNavigator();
-  return (
+  return (<>
+    <StatusBar style='light'/>
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerStyle:{backgroundColor:Colors.primaryColor600},headerTintColor:'white'}}>
         <Stack.Screen name="TrackerTabs" component={ExpenseTrackerTabs} options={{headerShown:false } }/>
-        <Stack.Screen name="ExpenseContol" component={ExpenseControllerScreen}/>
+        <Stack.Screen name="ExpenseContol" component={ExpenseControllerScreen} options={{title:'Edit Expence',presentation:'modal'}}/>
       </Stack.Navigator>
    
     </NavigationContainer>
+  </>
   );
 }
 

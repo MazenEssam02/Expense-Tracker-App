@@ -1,5 +1,8 @@
 export  const Colors={
   primaryColor800:'#001668',
-  primaryColor600:'#2d3d78',
-  accentColor:'#f7bc0c'
+  primaryColor600:'#233fa3',
+  accentColor:'#f7bc0c',
+  secondaryColor200:'#FFC9EC',
+  secondaryColor600:'#b94f94',
+  secondaryColor800:'#b30877'
 }

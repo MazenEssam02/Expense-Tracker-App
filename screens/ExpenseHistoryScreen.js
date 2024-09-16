@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../constants/Color';
-
+import ExpenceOutput from '../components/Expence/ExpenceOutput';
 function ExpenseHistoryScreen() {
   return (
     <View style={styles.container}>
-      <Text>History</Text>
+       <ExpenceOutput Period={'Total'}/>
      
     </View>
   );
