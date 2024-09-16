@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../constants/Color';
 function ExpenceSummary({expenses,Period}) {
-  const expenseSum=expenses.reduce((sum,expense)=> expense.amount+sum,0)
+  const expenseSum=expenses.reduce((sum,expense)=> expense.amount+sum,0);
   return (
     
       <View style={styles.summary}>

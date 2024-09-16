@@ -5,14 +5,14 @@ import {formatDate} from '../../util/formatDate';
 function ExpencesListItem({itemData}){
   const navigation=useNavigation();
   function itemPressHandler(){
-    navigation.navigate('ExpenseContol');
+    navigation.navigate('ExpenseContol',{itemId:itemData.item.id,description:itemData.item.description,date:formatDate(itemData.item.date),amount:itemData.item.amount});
   }
   return(
     <Pressable style={styles.button} onPress={itemPressHandler}>
 
     <View style={styles.itemContainer}>
       <View>
-        <Text style={styles.expenseItemText}>{itemData.item.title}</Text>
+        <Text style={styles.expenseItemText}>{itemData.item.description}</Text>
         <Text style={styles.expenseItemDate}>{formatDate(itemData.item.date)}</Text>
       </View>
       <View style={styles.amountContainer}>
