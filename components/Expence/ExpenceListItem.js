@@ -5,7 +5,7 @@ import {formatDate} from '../../util/formatDate';
 function ExpencesListItem({itemData}){
   const navigation=useNavigation();
   function itemPressHandler(){
-    navigation.navigate('ExpenseContol',{itemId:itemData.item.id,description:itemData.item.description,date:formatDate(itemData.item.date),amount:itemData.item.amount});
+    navigation.navigate('ExpenseContol',{control:'Update',expence:{itemId:itemData.item.id,description:itemData.item.description,date:formatDate(itemData.item.date),amount:itemData.item.amount}});
   }
   return(
     <Pressable style={styles.button} onPress={itemPressHandler}>

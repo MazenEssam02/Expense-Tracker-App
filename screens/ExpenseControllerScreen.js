@@ -1,58 +1,82 @@
-import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+
+import {  StyleSheet, Text, TextInput, View } from 'react-native';
 import { Colors } from '../constants/Color';
 import CustomButton from '../components/UI/CustomButton';
-import { useContext, useState } from 'react';
+import { useContext, useState,useLayoutEffect } from 'react';
 import { ExpensesContext } from '../store/Expence-context';
+import InputForm from '../components/ManageExpence/inputForm';
+
 function ExpenseControllerScreen({route,navigation}) {
-  const {itemId,description,date,amount}=route.params;
+  const {control,expence}=route.params;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: control==='Update' ? 'Edit Expense' : 'Add Expense',
+    });
+  }, [navigation, control]);
   function deleteHandler(){
-    ExpenceCtx.deleteExpense(itemId);
+    ExpenceCtx.deleteExpense(expence.itemId);
     cancelHandler();
   }
   function cancelHandler(){
     navigation.goBack();
   }
   function updateHandler(){
-    ExpenceCtx.updateExpense(itemId,{description:expenseDescription,amount:expenseAmount,date:new Date(expenseDate)});
+    if (control==='Update'){
+      ExpenceCtx.updateExpense(expence.itemId,inputText);
+    }
+    else{
+      ExpenceCtx.addExpense(inputText);
+    }
     navigation.goBack();
   }
-  function descUpdateHandler(text){
-    setExpenceDescription(text)
+  function inputTextHandler(inputPicker,inputNewText){
+    setInputText((curInputText)=>{
+      return{
+        ...curInputText,
+        [inputPicker]:inputNewText
+      };
+    });
     
   }
-  function dateUpdateHandler(text){
-    setExpenceDate(text)
-  }
-  function amountUpdateHandler(text){
-    setExpenceAmount(text)
-  }
+ 
+  const [inputText,setInputText]=useState({
+    description:expence.description,
+    date:new Date(expence.date),
+    amount:parseFloat(expence.amount)
+  });
+
+  //----------------------------------------------
+  // function inputTextHandler({inputPicker,inputNewText}){
+  //   setInputText((curInputText)=>{
+  //     return{
+  //       ...curInputText,
+  //       [inputPicker]:inputNewText
+  //     }
+  //   })
+    
+  // }
+ 
+  // const [inputText,setInputText]=useState({
+  //   description:expence.description,
+  //   date:expence.date,
+  //   amount:expence.amount
+  // });
+  // const [expenseDate,setExpenceDate]=useState(expence.date);
+  // const [expenseAmount,setExpenceAmount]=useState(expence.amount);
+  //---------------------------------------------------------------------
   const ExpenceCtx=useContext(ExpensesContext);
-  const [expenseDescription,setExpenceDescription]=useState(description);
-  const [expenseDate,setExpenceDate]=useState(date);
-  const [expenseAmount,setExpenceAmount]=useState(amount);
+
   return (
     <View style={styles.container}>
-      <View style={styles.deleteContainer}>
-      <CustomButton text={'Delete'} backgroundColor={'#fc9898'} color={'#ae0000'} onPress={deleteHandler}/>
-      </View>
-     
-      <View style={styles.itemContainer}>
-        <Text style={styles.Label}>Description</Text>
-        <TextInput style={styles.inputItem} value={expenseDescription} onChangeText={descUpdateHandler}/>
-      </View>
-      <View style={styles.itemContainer}>
-        <Text style={styles.Label}>Date</Text>
-        <TextInput style={styles.inputItem}  value={expenseDate} onChangeText={dateUpdateHandler}/>
-      </View>
-      <View style={styles.itemContainer}>
-        <Text style={styles.Label}>Amount</Text>
-        <TextInput style={styles.inputItem} value={`$${expenseAmount}`} onChangeText={amountUpdateHandler}/>
-        
-      </View>
+      {control==='Update'&&<View style={styles.deleteContainer}>
+        <CustomButton text={'Delete'} backgroundColor={'#ea2c2c'} color={'#f8d7d7'} onPress={deleteHandler}/>
+        </View>}
+      <InputForm expence={expence} inputText={inputText} inputTextHandler={inputTextHandler}/>
+   
       <View style={styles.controlButtonsContainer}>
       <CustomButton text={'Cancel'} color={'black'} backgroundColor={'white'} onPress={cancelHandler} />
-      <CustomButton text={'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={updateHandler}/>
+      <CustomButton text={control==='Add'?'Add':'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={updateHandler}/>
       </View>
     </View>
   );

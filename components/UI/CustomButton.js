@@ -22,7 +22,7 @@ buttonContainer:{
   borderRadius:8,
 },
 buttonText:{
- 
+//  fontWeight:'bold',
   textAlign:'center'
 },
 press:{

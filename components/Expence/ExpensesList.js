@@ -8,9 +8,9 @@ function ExpencesList({expenses}) {
    
     }
   return (
-    <View>
+    
       <FlatList data={expenses} renderItem={renderList} keyExtractor={(item)=>item.id} />
-    </View>
+    
  
   
   

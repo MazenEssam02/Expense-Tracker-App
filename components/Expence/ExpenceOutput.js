@@ -5,7 +5,7 @@ import ExpenceSummary from './ExpenseSummary';
 function ExpenceOutput({expenses,Period}) {
  
   return (
-    <View>
+    <View style={styles.container}>
       <ExpenceSummary Period={Period} expenses={expenses}/>
       <ExpencesList expenses={expenses}/>
     </View>
@@ -14,5 +14,8 @@ function ExpenceOutput({expenses,Period}) {
 }
 export default ExpenceOutput;
 const styles = StyleSheet.create({
- 
+  container: {
+   flex:1,
+    backgroundColor: Colors.primaryColor800,
+  },
 });

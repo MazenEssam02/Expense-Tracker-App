@@ -7,8 +7,8 @@ import { Colors } from './constants/Color';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ExpenseControllerScreen from './screens/ExpenseControllerScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import ExpensesContextProvider, { ExpensesContext } from './store/Expence-context';
-import AddExpenceScreen from './screens/AddExpenceScreen';
+import ExpensesContextProvider from './store/Expence-context';
+
 export default function App() {
   function ExpenseTrackerTabs(){
     return(
@@ -18,7 +18,7 @@ export default function App() {
       tabBarStyle:{backgroundColor:Colors.primaryColor600},
       tabBarActiveTintColor:Colors.accentColor,
       tabBarInactiveTintColor:'white',
-      headerRight:({tintColor})=><Ionicons name='add' size={24} color={tintColor} style={{marginRight:5}} onPress={()=>{navigation.navigate('AddExpence')}}/>
+      headerRight:({tintColor})=><Ionicons name='add' size={28} color={tintColor} style={{marginRight:8}} onPress={()=>{navigation.navigate('ExpenseContol',{control:'Add',expence:{}})}}/>
       })}>
       <Tab.Screen name="Recent" component={RecentExpenseScreen} options={{
         title:"Recent Expenses",
@@ -43,7 +43,6 @@ export default function App() {
       <Stack.Navigator screenOptions={{headerStyle:{backgroundColor:Colors.primaryColor600},headerTintColor:'white'}}>
         <Stack.Screen name="TrackerTabs" component={ExpenseTrackerTabs} options={{headerShown:false } }/>
         <Stack.Screen name="ExpenseContol" component={ExpenseControllerScreen} options={{title:'Edit Expence',presentation:'modal'}}/>
-        <Stack.Screen name="AddExpence" component={AddExpenceScreen} options={{title:'Add Expence',presentation:'modal'}}/>
       </Stack.Navigator>
    
     </NavigationContainer>
