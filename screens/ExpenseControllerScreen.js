@@ -1,5 +1,5 @@
 
-import {  StyleSheet, Text, TextInput, View } from 'react-native';
+import {  Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Colors } from '../constants/Color';
 import CustomButton from '../components/UI/CustomButton';
 import { useContext, useState,useLayoutEffect } from 'react';
@@ -25,9 +25,15 @@ function ExpenseControllerScreen({route,navigation}) {
     const expenceEntered={
       description:inputText.description,
       date:new Date(inputText.date),
-      amount:parseFloat(inputText.amount)
+      amount:+inputText.amount
     }
-  
+    const validAmount=!isNaN(expenceEntered.amount)&&expenceEntered.amount>0;
+    const validDate=expenceEntered.date.toString()!=='Invalid Date';
+    const validDescription=expenceEntered.description.length>0;
+    if(!validAmount||!validDate||!validDescription){
+      Alert.alert('Invalid Input','Please check your input values');
+      return;
+    }
     updateHandler(expenceEntered);
   }
   function updateHandler(expenceEntered){
@@ -50,9 +56,9 @@ function ExpenseControllerScreen({route,navigation}) {
   }
  
   const [inputText,setInputText]=useState({
-    description:expence.description,
-    date:expence.date,
-    amount:expence.amount
+    description:expence.description?expence.description:'',
+    date:expence.date?expence.date:'',
+    amount:expence.amount?expence.amount:'',
   });
 
   //----------------------------------------------
