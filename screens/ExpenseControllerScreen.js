@@ -78,14 +78,15 @@ function ExpenseControllerScreen({route,navigation}) {
 
   return (
     <View style={styles.container}>
-      {control==='Update'?<View style={styles.deleteContainer}>
-        <CustomButton text={'Delete'} backgroundColor={'#ea2c2c'} color={'#f8d7d7'} onPress={deleteHandler}/>
-        </View>:<Text style={styles.AddTitle}>Add Your Expence</Text>}
+     <Text style={styles.AddTitle}>Your Expence</Text>
       <InputForm expence={expence} inputText={inputText} inputTextHandler={inputTextHandler}/>
       <View style={styles.controlButtonsContainer}>
       <CustomButton text={'Cancel'} color={'black'} backgroundColor={'white'} onPress={cancelHandler} />
       <CustomButton text={control==='Add'?'Add':'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={onSubmitHandler}/>
       </View>
+      {control==='Update'&&<View style={styles.deleteContainer}>
+        <CustomButton text={'Delete'} backgroundColor={'#ea2c2c'} color={'#f8d7d7'} onPress={deleteHandler}/>
+        </View>}
     </View>
   );
 }
@@ -106,7 +107,10 @@ marginTop:50,
   },
   deleteContainer:{
     alignItems:'center',
-    margin:12
+    margin:12,
+    borderTopColor:Colors.primaryColor600,
+    borderTopWidth:1,
+    paddingTop:25
   },
   itemContainer:{
     marginVertical:8
@@ -128,6 +132,7 @@ marginTop:50,
     flexDirection:'row',
     justifyContent:'space-around',
     // marginHorizontal:20,
-    marginTop:10,
+    marginVertical:10,
+   
   }
 });
