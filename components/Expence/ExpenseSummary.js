@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
    padding:8,
   },
   period:{
-    color:Colors.secondaryColor600,
+    color:Colors.secondaryColor800,
   },
   price:{
     color:Colors.secondaryColor800,

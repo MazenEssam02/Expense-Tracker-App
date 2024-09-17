@@ -21,12 +21,21 @@ function ExpenseControllerScreen({route,navigation}) {
   function cancelHandler(){
     navigation.goBack();
   }
-  function updateHandler(){
+  function onSubmitHandler(){
+    const expenceEntered={
+      description:inputText.description,
+      date:new Date(inputText.date),
+      amount:parseFloat(inputText.amount)
+    }
+  
+    updateHandler(expenceEntered);
+  }
+  function updateHandler(expenceEntered){
     if (control==='Update'){
-      ExpenceCtx.updateExpense(expence.itemId,inputText);
+      ExpenceCtx.updateExpense(expence.itemId,expenceEntered);
     }
     else{
-      ExpenceCtx.addExpense(inputText);
+      ExpenceCtx.addExpense(expenceEntered);
     }
     navigation.goBack();
   }
@@ -42,8 +51,8 @@ function ExpenseControllerScreen({route,navigation}) {
  
   const [inputText,setInputText]=useState({
     description:expence.description,
-    date:new Date(expence.date),
-    amount:parseFloat(expence.amount)
+    date:expence.date,
+    amount:expence.amount
   });
 
   //----------------------------------------------
@@ -75,7 +84,7 @@ function ExpenseControllerScreen({route,navigation}) {
       <InputForm expence={expence} inputText={inputText} inputTextHandler={inputTextHandler}/>
       <View style={styles.controlButtonsContainer}>
       <CustomButton text={'Cancel'} color={'black'} backgroundColor={'white'} onPress={cancelHandler} />
-      <CustomButton text={control==='Add'?'Add':'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={updateHandler}/>
+      <CustomButton text={control==='Add'?'Add':'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={onSubmitHandler}/>
       </View>
     </View>
   );
