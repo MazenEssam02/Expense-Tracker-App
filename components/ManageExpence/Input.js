@@ -1,13 +1,13 @@
 import { View,StyleSheet,Text,TextInput } from "react-native";
 import { Colors } from "../../constants/Color";
 
-function Input({label,inputConfig}){
+function Input({label,inputConfig,style}){
   let inputStyle=[styles.inputItem]
   if(inputConfig&&inputConfig.multiline){
     inputStyle.push(styles.inputMultiLine)
   }
 return(
-      <View style={styles.itemContainer}>
+      <View style={[styles.itemContainer,style]}>
         <Text style={styles.Label}>{label}</Text>
         <TextInput style={inputStyle} {...inputConfig}   />
       </View>
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     color:'white',
     padding:12,
     margin:10,
+    borderRadius:12,
     
   },
   inputMultiLine:{

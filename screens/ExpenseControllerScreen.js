@@ -69,11 +69,10 @@ function ExpenseControllerScreen({route,navigation}) {
 
   return (
     <View style={styles.container}>
-      {control==='Update'&&<View style={styles.deleteContainer}>
+      {control==='Update'?<View style={styles.deleteContainer}>
         <CustomButton text={'Delete'} backgroundColor={'#ea2c2c'} color={'#f8d7d7'} onPress={deleteHandler}/>
-        </View>}
+        </View>:<Text style={styles.AddTitle}>Add Your Expence</Text>}
       <InputForm expence={expence} inputText={inputText} inputTextHandler={inputTextHandler}/>
-   
       <View style={styles.controlButtonsContainer}>
       <CustomButton text={'Cancel'} color={'black'} backgroundColor={'white'} onPress={cancelHandler} />
       <CustomButton text={control==='Add'?'Add':'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={updateHandler}/>
@@ -87,6 +86,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primaryColor800,
     paddingHorizontal:25,
+  },
+  AddTitle:{
+fontSize:24,
+fontWeight:'bold',
+color:'white',
+textAlign:'center',
+marginBottom:25,
+marginTop:50,
   },
   deleteContainer:{
     alignItems:'center',
