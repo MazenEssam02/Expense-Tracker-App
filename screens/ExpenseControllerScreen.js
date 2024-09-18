@@ -23,15 +23,23 @@ function ExpenseControllerScreen({route,navigation}) {
   }
   function onSubmitHandler(){
     const expenceEntered={
-      description:inputText.description,
-      date:new Date(inputText.date),
-      amount:+inputText.amount
+      description:inputText.description.value,
+      date:new Date(inputText.date.value),
+      amount:+inputText.amount.value
     }
+
     const validAmount=!isNaN(expenceEntered.amount)&&expenceEntered.amount>0;
     const validDate=expenceEntered.date.toString()!=='Invalid Date';
     const validDescription=expenceEntered.description.length>0;
     if(!validAmount||!validDate||!validDescription){
-      Alert.alert('Invalid Input','Please check your input values');
+      // Alert.alert('Invalid Input','Please check your input values');
+      setInputText((curInputText)=>{
+        return{
+          amount:{value:curInputText.amount.value,isValid:validAmount},
+          date:{value:curInputText.date.value,isValid:validDate},
+          description:{value:curInputText.description.value,isValid:validDescription}
+        };
+      });
       return;
     }
     updateHandler(expenceEntered);
@@ -46,21 +54,32 @@ function ExpenseControllerScreen({route,navigation}) {
     navigation.goBack();
   }
   function inputTextHandler(inputPicker,inputNewText){
+    
     setInputText((curInputText)=>{
       return{
         ...curInputText,
-        [inputPicker]:inputNewText
+        [inputPicker]:{value:inputNewText, isValid:true}
       };
     });
+
     
   }
  
   const [inputText,setInputText]=useState({
-    description:expence.description?expence.description:'',
-    date:expence.date?expence.date:'',
-    amount:expence.amount?expence.amount:'',
+      description:{
+        value:expence.description?expence.description:'',
+        isValid:true
+      },
+      date:
+        {
+          value:expence.date?expence.date:'',
+        isValid:true},
+      amount:
+      {
+        value:expence.amount?expence.amount:'', 
+        isValid:true},
   });
-
+const formIsValid=!inputText.amount.isValid||!inputText.description.isValid||!inputText.date.isValid
   //----------------------------------------------
   // function inputTextHandler({inputPicker,inputNewText}){
   //   setInputText((curInputText)=>{
@@ -86,6 +105,7 @@ function ExpenseControllerScreen({route,navigation}) {
     <View style={styles.container}>
      <Text style={styles.AddTitle}>Your Expence</Text>
       <InputForm expence={expence} inputText={inputText} inputTextHandler={inputTextHandler}/>
+      {formIsValid&& <Text style={styles.invalidText}>Invalid Input - Please check your input values</Text>}
       <View style={styles.controlButtonsContainer}>
       <CustomButton text={'Cancel'} color={'black'} backgroundColor={'white'} onPress={cancelHandler} />
       <CustomButton text={control==='Add'?'Add':'Update'} color={'white'} backgroundColor={Colors.primaryColor600} onPress={onSubmitHandler}/>
@@ -140,5 +160,10 @@ marginTop:50,
     // marginHorizontal:20,
     marginVertical:10,
    
+  },
+  invalidText:{
+    color:'red',
+    fontSize:14,
+    textAlign:'center'
   }
 });

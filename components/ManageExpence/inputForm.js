@@ -8,10 +8,10 @@ return (
   <View>
     
     <View style={styles.rowContainer}>
-    <Input label='Amount' style={styles.rowInput} inputConfig={{value:`${inputText.amount?inputText.amount:''}` ,keyboardType:'decimal-pad',onChangeText:inputTextHandler.bind(this,'amount')}}/>
-    <Input label='Date'style={styles.rowInput} inputConfig={{value:inputText.date,onChangeText:inputTextHandler.bind(this,'date'),placeholder:'YYYY-MM-DD',placeholderTextColor:'white',maxLength:10}}/>
+    <Input label='Amount' style={styles.rowInput} isValid={inputText.amount.isValid} inputConfig={{value:`${inputText.amount.value?inputText.amount.value:''}` ,keyboardType:'decimal-pad',onChangeText:inputTextHandler.bind(this,'amount')}}/>
+    <Input label='Date'style={styles.rowInput} isValid={inputText.date.isValid}inputConfig={{value:inputText.date.value,onChangeText:inputTextHandler.bind(this,'date'),placeholder:'YYYY-MM-DD',placeholderTextColor:'white',maxLength:10}}/>
     </View>
-    <Input label='Description' inputConfig={{value:inputText.description,
+    <Input label='Description' isValid={inputText.description.isValid} inputConfig={{value:inputText.description.value,
     onChangeText:inputTextHandler.bind(this,'description'),
     multiline:true}}/>
   </View>
