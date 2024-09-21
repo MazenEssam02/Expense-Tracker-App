@@ -5,18 +5,64 @@ import CustomButton from '../components/UI/CustomButton';
 import { useContext, useState,useLayoutEffect } from 'react';
 import { ExpensesContext } from '../store/Expence-context';
 import InputForm from '../components/ManageExpence/inputForm';
+import { storeExpece,updatedExpense,deleteExpense } from '../util/http';
+import LoadingOverlay from '../components/UI/LoadingOverlay';
+import ErrorOverlay from '../components/UI/ErrorOverlay';
 
 function ExpenseControllerScreen({route,navigation}) {
   const {control,expence}=route.params;
-
+  const[isFetching,setIsFetching]=useState(false);
+  const[error,setError]=useState();
   useLayoutEffect(() => {
     navigation.setOptions({
       title: control==='Update' ? 'Edit Expense' : 'Add Expense',
     });
   }, [navigation, control]);
-  function deleteHandler(){
-    ExpenceCtx.deleteExpense(expence.itemId);
-    cancelHandler();
+
+async function  updateHandler(expenceEntered){
+    setIsFetching(true);
+    try{
+
+      if (control==='Update'){
+        ExpenceCtx.updateExpense(expence.itemId,expenceEntered);
+        
+        await updatedExpense(expence.itemId,expenceEntered);
+        
+      }
+      else{
+        
+        const id=await storeExpece(expenceEntered);
+        
+        ExpenceCtx.addExpense({...expenceEntered,id:id});
+      }
+      navigation.goBack();
+    }catch(error){
+      setError('Could not save data- Please try again later');
+      setIsFetching(false)
+    }
+  }
+  function inputTextHandler(inputPicker,inputNewText){
+    
+    setInputText((curInputText)=>{
+      return{
+        ...curInputText,
+        [inputPicker]:{value:inputNewText, isValid:true}
+      };
+    });
+
+    
+  }
+  async function deleteHandler(){
+    setIsFetching(true);
+    try{
+      await deleteExpense(expence.itemId);
+     
+      ExpenceCtx.deleteExpense(expence.itemId);
+      cancelHandler();
+    }catch{
+      setError('Error in deleting- Please try again later');
+      setIsFetching(false)
+    }
   }
   function cancelHandler(){
     navigation.goBack();
@@ -44,27 +90,7 @@ function ExpenseControllerScreen({route,navigation}) {
     }
     updateHandler(expenceEntered);
   }
-  function updateHandler(expenceEntered){
-    if (control==='Update'){
-      ExpenceCtx.updateExpense(expence.itemId,expenceEntered);
-    }
-    else{
-      ExpenceCtx.addExpense(expenceEntered);
-    }
-    navigation.goBack();
-  }
-  function inputTextHandler(inputPicker,inputNewText){
-    
-    setInputText((curInputText)=>{
-      return{
-        ...curInputText,
-        [inputPicker]:{value:inputNewText, isValid:true}
-      };
-    });
 
-    
-  }
- 
   const [inputText,setInputText]=useState({
       description:{
         value:expence.description?expence.description:'',
@@ -100,7 +126,12 @@ const formIsValid=!inputText.amount.isValid||!inputText.description.isValid||!in
   // const [expenseAmount,setExpenceAmount]=useState(expence.amount);
   //---------------------------------------------------------------------
   const ExpenceCtx=useContext(ExpensesContext);
-
+  if(error && !isFetching){
+    return <ErrorOverlay message={error}/>
+  }
+  if(isFetching) {
+    return <LoadingOverlay/>
+} 
   return (
     <View style={styles.container}>
      <Text style={styles.AddTitle}>Your Expence</Text>
